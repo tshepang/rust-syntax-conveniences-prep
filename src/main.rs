@@ -1,4 +1,42 @@
-use std::{io, fs};
+use std::{fs, io};
+
+fn methods() {
+    mod some_module {
+        pub struct MaxThree {
+            counter: usize,
+        }
+
+        impl MaxThree {
+            pub fn new() -> Self {
+                Self { counter: 0 }
+            }
+
+            pub fn increase(&mut self) {
+                if self.counter < 3 {
+                    self.counter += 1;
+                }
+            }
+
+            pub fn current(&self) -> usize {
+                self.counter
+            }
+        }
+    }
+
+    println!("version 0 (raw)");
+    let mut max_three = some_module::MaxThree::new();
+    for n in 0..=4 {
+        (&mut max_three).increase();
+        println!("loop {}: counter={:?}", n, (&max_three).current());
+    }
+
+    println!("version 1");
+    let mut max_three = some_module::MaxThree::new();
+    for n in 0..=4 {
+        max_three.increase();
+        println!("loop {}: counter={:?}", n, max_three.current());
+    }
+}
 
 fn range() {
     println!("version 0 (range)");
@@ -85,6 +123,7 @@ fn run() -> io::Result<()> {
     arithmetic_shortcuts();
     question_mark()?;
     looping();
+    methods();
     Ok(())
 }
 
