@@ -82,7 +82,7 @@ fn question_mark() -> io::Result<()> {
 fn looping() {
     let three: &[i32] = &[1, 2, 3];
 
-    println!("version 0");
+    println!("version 0 (looping");
     let mut index = 0;
     let count = three.len();
     loop {
@@ -109,13 +109,13 @@ fn looping() {
         println!("{}", member);
     }
 
-    println!("version 3 (same trait, but a functional approach)");
-    three.into_iter().for_each(|member| println!("{}", member));
-
-    println!("version 4 (with 'for' keyword, the sugar)");
+    println!("version 3 (with 'for' keyword, the sugar)");
     for member in three {
         println!("{}", member);
     }
+
+    println!("version 4 (addendum: a functional approach)");
+    three.iter().for_each(|member| println!("{}", member));
 }
 
 fn run() -> io::Result<()> {
