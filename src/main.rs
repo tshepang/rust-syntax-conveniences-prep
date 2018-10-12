@@ -40,8 +40,7 @@ fn methods() {
 
 fn range() {
     println!("version 0 (range)");
-    let range = std::ops::RangeInclusive::new(1, 3);
-    for n in range {
+    for n in std::ops::RangeInclusive::new(1, 3) {
         println!("{}", n);
     }
 
@@ -71,9 +70,6 @@ fn question_mark() -> io::Result<()> {
     };
 
     // version 1
-    let _ = try!(fs::read("/etc/os-release"));
-
-    // version 2
     let _ = fs::read("/etc/os-release")?;
 
     Ok(())
@@ -85,8 +81,10 @@ fn looping() {
     println!("version 0 (looping");
     let mut index = 0;
     let count = three.len();
+    // len is a fundamental property of slice types,
+    // 'three' is a slice (of array of i32)
     loop {
-        if count <= index {
+        if index == count {
             break;
         }
         println!("{}", three[index]);
@@ -95,8 +93,6 @@ fn looping() {
 
     println!("version 1 (with 'while' keyword)");
     let mut index = 0;
-    // len is a fundamental property of slice types...
-    // 'three' is a slice (of i32)
     let count = three.len();
     while index < count {
         println!("{}", three[index]);
