@@ -114,12 +114,44 @@ fn looping() {
     three.iter().for_each(|member| println!("{}", member));
 }
 
+fn debug_fmt() {
+    println!("version 0 (manual)");
+    struct Point {
+        x: isize,
+        y: isize,
+    }
+    use std::fmt;
+    impl fmt::Debug for Point {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            f.debug_struct("Point")
+                .field("x", &self.x)
+                .field("y", &self.y)
+                .finish()
+        }
+    }
+    let point = Point { x: 1, y: 2 };
+    println!("{:#?}", point);
+}
+
+fn debug_fmt_derive() {
+    println!("version 1 (with 'derive' annotation)");
+    #[derive(Debug)]
+    struct Point {
+        x: isize,
+        y: isize,
+    }
+    let point = Point { x: 1, y: 2 };
+    println!("{:#?}", point);
+}
+
 fn run() -> io::Result<()> {
     range();
     arithmetic_shortcuts();
     question_mark()?;
     looping();
     methods();
+    debug_fmt();
+    debug_fmt_derive();
     Ok(())
 }
 
