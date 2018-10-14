@@ -114,7 +114,7 @@ fn looping() {
     three.iter().for_each(|member| println!("{}", member));
 }
 
-fn debug_fmt() {
+fn no_derive() {
     println!("version 0 (manual)");
     struct Point {
         x: isize,
@@ -133,7 +133,7 @@ fn debug_fmt() {
     println!("{:#?}", point);
 }
 
-fn debug_fmt_derive() {
+fn derive() {
     println!("version 1 (with 'derive' annotation)");
     #[derive(Debug)]
     struct Point {
@@ -144,14 +144,63 @@ fn debug_fmt_derive() {
     println!("{:#?}", point);
 }
 
+fn lifetime_elision() {
+    fn not_elided<'a>(value: &'a str) {
+        println!("{}", value);
+    }
+    fn elided<'a>(value: &str) {
+        println!("{}", value);
+    }
+    println!("version 0 (not elided)");
+    not_elided("some value");
+    println!("version 1 (elided)");
+    elided("some value");
+    const FOO: &'static str = r#"const "&'static" explicit"#;
+    const BAR: &str = r#"const "&'static" elided"#;
+    println!("{} | {}", FOO, BAR);
+    static BAZ: &'static str = r#"static "&'static" explicit"#;
+    static QUX: &str = r#"static "&'static" elided"#;
+    println!("{} | {}", BAZ, QUX);
+}
+
+fn type_inference_and_coercion() {
+    let mut explicit: Vec<f32> = Vec::new();
+    explicit.push(0.1_f32);
+    println!("explicit: {:?}", explicit);
+    let mut inferred = Vec::new();
+    inferred.push(0.1_f32);
+    println!("inferred: {:?}", inferred);
+
+    let foo: i64 = 1_64;
+    println!("veri explicit... no inference or coercion: {:#X}", -foo);
+    let foo: i8 = 1;
+    println!("coerced to i8: {:#X}", -foo);
+    let foo = 1;
+    assert_eq!(foo, 1_i16);
+    println!("inferred as i16: {:#X}", -foo);
+    let foo = 1;
+    assert_eq!(foo, 1); // no coercion... default is i32
+    println!("default (fallback) signed type is i32: {:#X}", -foo);
+    let foo: i64 = 1_i64;
+    println!("no inference or coercion: {:#X}", -foo);
+}
+
+fn hidden_code() {
+    extern crate std;
+    use std::prelude::v1::*;
+}
+
 fn run() -> io::Result<()> {
     range();
     arithmetic_shortcuts();
     question_mark()?;
     looping();
     methods();
-    debug_fmt();
-    debug_fmt_derive();
+    no_derive();
+    derive();
+    lifetime_elision();
+    type_inference_and_coercion();
+    hidden_code();
     Ok(())
 }
 
