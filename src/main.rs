@@ -7,7 +7,7 @@ fn type_elision() {
     println!("elided: {:?}", value);
 }
 
-fn type_elision_shorthand() {
+fn self_shorthand() {
     struct Number(i32);
     impl Number {
         fn increase(self: &mut Self) {
@@ -296,7 +296,7 @@ fn run() -> io::Result<()> {
     hidden_code();
     if_let();
     type_elision();
-    type_elision_shorthand();
+    self_shorthand();
     pretty_imports();
     implicit_return();
     deref_coercion();
