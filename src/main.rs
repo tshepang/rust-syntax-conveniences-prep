@@ -1,7 +1,7 @@
 use std::{fs, io};
 
 fn type_elision() {
-    let value: Vec<u8> = (1_u8..=3).collect();
+    let value: Vec<u8> = (1_u8..=3_u8).collect();
     println!("explicit: {:?}", value);
     let value: Vec<_> = (1..=3).collect();
     println!("elided: {:?}", value);
@@ -77,7 +77,7 @@ fn range() {
     }
 }
 
-fn arithmetic_shortcuts() {
+fn arithmetic_shorthands() {
     // version 0
     let mut foo = 1;
     foo = foo + 1;
@@ -284,7 +284,7 @@ fn implicit_return() {
 
 fn run() -> io::Result<()> {
     range();
-    arithmetic_shortcuts();
+    arithmetic_shorthands();
     question_mark()?;
     looping();
     methods();
