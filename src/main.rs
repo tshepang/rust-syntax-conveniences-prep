@@ -219,9 +219,12 @@ fn deref_coercion() {
     }
     let borrowed = Path::new("some/path.txt");
     let owned = PathBuf::from("some/path.txt");
-    assert_eq!(owned, borrowed);
+    assert_eq!(owned, borrowed); // PartialEq
+    assert_eq!(&owned, borrowed); // another way to peel avo
+    assert_eq!(owned, *borrowed); // yet another way to peel avo
     assert_eq!(ext(&owned), ext(borrowed));
-    assert_eq!(ext(owned.deref()), ext(borrowed)); // explicit
+    assert_eq!(ext(owned.deref()), ext(borrowed)); // another way to peel avo
+    assert_eq!(ext(owned.as_path()), ext(borrowed)); // yet another way ...
     assert_eq!(ext(&owned), Some(OsStr::new("txt")));
 }
 
