@@ -50,7 +50,7 @@ fn methods() {
         }
     }
 
-    println!("version 0 (raw)");
+    println!("version 0 (explicit method call borrows)");
     let mut max_three = some_module::MaxThree::new();
     for n in 0..=4 {
         (&mut max_three).increase();
