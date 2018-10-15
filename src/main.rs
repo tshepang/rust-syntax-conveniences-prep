@@ -213,10 +213,16 @@ fn type_inference_and_coercion() {
 }
 
 fn deref_coercion() {
-    let vec = vec![1, 2, 3];
-    let arr = [1, 2, 3];
-    let equal = vec == arr;
-    assert!(equal);
+    use std::{path::{Path, PathBuf}, ffi::OsStr, ops::Deref};
+    fn ext(value: &Path) -> Option<&OsStr> {
+        value.extension()
+    }
+    let borrowed = Path::new("some/path.txt");
+    let owned = PathBuf::from("some/path.txt");
+    assert_eq!(owned, borrowed);
+    assert_eq!(ext(&owned), ext(borrowed));
+    assert_eq!(ext(owned.deref()), ext(borrowed)); // explicit
+    assert_eq!(ext(&owned), Some(OsStr::new("txt")));
 }
 
 fn hidden_code() {
