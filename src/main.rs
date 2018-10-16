@@ -210,6 +210,13 @@ fn type_inference_and_coercion() {
     println!("default (fallback) signed type is i32: {:#X}", -foo);
     let foo: i64 = 1_i64;
     println!("no inference or coercion: {:#X}", -foo);
+
+    fn to_vec(value: &str) -> Vec<&str> {
+        value.split_whitespace().collect()
+    }
+    let value = to_vec("1 2 3");
+    println!("no turbofish needed: {:?}", value);
+    assert_eq!(value, vec!["1", "2", "3"]);
 }
 
 fn deref_coercion() {
