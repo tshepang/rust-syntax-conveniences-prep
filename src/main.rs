@@ -315,7 +315,6 @@ fn run() -> io::Result<()> {
     self_shorthand();
     pretty_imports();
     implicit_return();
-    deref_coercion();
     Ok(())
 }
 
